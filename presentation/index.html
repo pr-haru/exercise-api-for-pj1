@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API練習1</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <h1>API練習1（挨拶）</h1>
+    <div id="content">
+        <input type="text" id="name" placeholder="任意の名前を入力してください" >
+        <button id="fetchButton">挨拶</button>
+    </div>
+    <div id="display"></div>
+<script> 
+    document.getElementById('fetchButton').addEventListener('click', send);
+    async function send() {
+    const name = document.getElementById('name').value;
+    const now = new Date().toISOString(); 
+    
+    // URLにパラメータを付与してGETリクエスト
+   // URLを組み立てる
+    const baseUrl = 'http://localhost:8081/api/greet';
+    const params = `?name=${encodeURIComponent(name)}&time=${encodeURIComponent(now)}`;
+    const fullUrl = baseUrl + params;
+
+    console.log("送信先URL:", fullUrl); // 開発者ツールのConsoleで確認できます
+try {
+        const res = await fetch(fullUrl);
+        const data = await res.json(); // APIResponse の形になる
+
+        console.log("APIからの返却値:", data);
+
+        //レスポンス取得
+        if (data.code !== 200) {
+            //エラー時
+            display.innerText = `エラー: ${data.message}`;
+            display.style.color = "red";
+            return;
+        }
+
+        //成功時 
+        if (data.response) {
+            display.innerText = data.response.Message;
+            display.style.color = "black";
+        }
+
+    } catch (error) {
+        console.error("通信エラー:", error);
+        display.innerText = "サーバーに接続できません";
+        display.style.color = "red";
+    }
+}
+</script>
+</html>
