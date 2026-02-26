@@ -21,5 +21,7 @@ func main() {
 
     // GETリクエストで名前と時刻を受け取る
     r.GET("/api/greet", presentation.GreetingHandler)
+	// POSTリクエストで名前と時刻を受け取る
+	//r.POST("/api/greet", presentation.GreetingHandler)
     r.Run(":8081")
 }
