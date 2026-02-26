@@ -19,13 +19,18 @@ func GreetingHandler(c *gin.Context) {
     // 別のポートからのアクセスを許可 (CORS)
     c.Writer.Header().Set("Access-Control-Allow-Origin", "http://localhost:3030")
 
-    // URLパラメータを構造体にマッピング
-    // 例: /api/greet?name=田中&time=2026-02-16T15:00:00Z
+    // GETのURLパラメータを構造体にマッピング
     var req struct {
         Name string    `form:"name"`
         Time time.Time `form:"time" time_format:"2006-01-02T15:04:05.000Z"`
     }
+	//POSTのbodyを構造体にマッピング
+	// var req struct{
+	// 	Name string  `json:"name"`
+	// 	Time time.Time `json:"time" time_format:"2006-01-02T15:04:05.000Z"`
+	// 	}
 
+	//GETのリクエスト不正精査
     if err := c.ShouldBindQuery(&req); err != nil {
         c.JSON(400, GreetingResponse{
             Code:    400,
@@ -34,6 +39,16 @@ func GreetingHandler(c *gin.Context) {
         })
         return
     }
+
+	//POSTのbody部分のリクエスト不正精査
+	//  if err := c.ShouldBindJSON(&req); err != nil {
+    //     c.JSON(400, GreetingResponse{
+    //         Code:    400,
+    //         Message: "パラメータが不正です",
+    //         Response: nil,
+    //     })
+    //     return
+    // }
 
     // Domain層のInputに入れ替える
     input := domain.GreetingInput{
