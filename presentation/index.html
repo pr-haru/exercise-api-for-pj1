@@ -26,9 +26,27 @@
     const params = `?name=${encodeURIComponent(name)}&time=${encodeURIComponent(now)}`;
     const fullUrl = baseUrl + params;
 
+    //POST用
+    // const requestDate = {
+    //         name:name,
+    //         time:now
+    // }
+
     console.log("送信先URL:", fullUrl); 
 try {
+
+        //GETでAPI連携
         const res = await fetch(fullUrl);
+
+        //POSTでAPI連携
+        // const res = await fetch(baseUrl,{
+        //     method:POST,
+        //     header:{
+        //         'Content-Type': 'application/json'
+        //     }
+        //     body: JSON.stringify(requestData)
+        // })
+            
         //レスポンス取得
         const data = await res.json(); 
 
