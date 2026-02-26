@@ -26,12 +26,11 @@
     const params = `?name=${encodeURIComponent(name)}&time=${encodeURIComponent(now)}`;
     const fullUrl = baseUrl + params;
 
-    console.log("送信先URL:", fullUrl); // 開発者ツールのConsoleで確認できます
+    console.log("送信先URL:", fullUrl); 
 try {
         const res = await fetch(fullUrl);
-        const data = await res.json(); // APIResponse の形になる
-
-        console.log("APIからの返却値:", data);
+        //レスポンス取得
+        const data = await res.json(); 
 
         //レスポンス取得
         if (data.code !== 200) {
